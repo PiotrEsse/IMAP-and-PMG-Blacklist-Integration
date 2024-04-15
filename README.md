@@ -28,7 +28,7 @@ Before using this script, ensure you have the following prerequisites:
     ```
 
 4. **Whitelist IPs**: If there are any IP addresses that should not be added to the blacklist, list them in a file named `whitelist_ips.txt` in the same directory as the script, with each IP address on a new line.
-5. Update name of Junk/Spam folder of Your IMAP server in line #44. Default is Junk.
+5. Script will look for Spam or Junk folder. If spam is in different folder name you need to update it accordingly.
 
 ## Usage
 
