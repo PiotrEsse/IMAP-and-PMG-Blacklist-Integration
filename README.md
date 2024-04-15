@@ -56,5 +56,4 @@ To use the script, follow these steps:
 
 This project is licensed under the [MIT License](LICENSE).
 
----
-Please replace `[Your Name]` and `[Your Email]` with appropriate values. Let me know if you need further assistance!
+
