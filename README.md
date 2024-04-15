@@ -1,5 +1,5 @@
 
-# IMAP and PMG Blacklist Integration
+# IMAP and Proxmox Mail Gatewat Blacklist Integration
 
 ## Overview
 
