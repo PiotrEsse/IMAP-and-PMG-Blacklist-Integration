@@ -60,7 +60,7 @@ def fetch_source_ips_from_email():
         exit()
 
     # Get the 10 latest messages
-    message_ids = message_ids[0].split()[-10:]  # Get the 10 latest message IDs
+    message_ids = message_ids[0].split()[-50:]  # Get the 50 latest message IDs
 
     # Load whitelist IPs
     whitelist_ips = set(load_whitelist('whitelist_ips.txt'))  # Convert to set for faster lookup
