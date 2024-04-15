@@ -40,10 +40,17 @@ def fetch_source_ips_from_email():
     imap = imaplib.IMAP4_SSL(IMAP_SERVER)
     imap.login(IMAP_USERNAME, IMAP_PASSWORD)
 
-    # Select the Junk folder
-    status, count = imap.select('Junk')
-    if status != 'OK':
-        print("Failed to select the Junk folder.")
+    # Try both "Junk" and "Spam" folder names
+    folder_names = ["Junk", "Spam"]
+    selected_folder = None
+    for folder_name in folder_names:
+        status, _ = imap.select(folder_name)
+        if status == 'OK':
+            selected_folder = folder_name
+            break
+
+    if selected_folder is None:
+        print("Failed to select the Junk or Spam folder.")
         exit()
 
     # Search for the 10 latest messages
