@@ -2,6 +2,7 @@
 # IMAP and Proxmox Mail Gatewat Blacklist Integration
 
 ## Overview
+My email server was hammered by spam where Proxmox Mail Gatway cant cope with effectively. I had to find a solution to give feedback to a PMG directly from my mailbox Spam folder so PMG can update blocklisted IP. 
 
 This script is designed to connect to an IMAP (Internet Message Access Protocol) server to parse emails in the spam/junk folder and extract the origin IP addresses. It then connects to a Proxmox Mail Gateway (PMG) and adds these extracted IP addresses to the blacklist. Additionally, it ensures that only unique IP addresses are added to the blacklist and removes any duplicates.
 
