@@ -37,7 +37,7 @@ To use the script, follow these steps:
 
 1. **Run the Script**: Execute the script using the following command:
     ```
-    python script_name.py
+    python IMAP-and-PMG-Blacklist-Integration.py
     ```
 
 2. **View Outputs**:
