@@ -1,6 +1,8 @@
 
 # IMAP and Proxmox Mail Gateway Blacklist Integration
 
+## Give feedback from Your IMAP account to central Proxmox Mail Gateway to fight spam.
+
 ## Overview
 My email server was hammered by spam where Proxmox Mail Gatway cant cope with effectively. I had to find a solution to give feedback to a PMG directly from my mailbox Spam folder so PMG can update blocklisted IP. 
 
