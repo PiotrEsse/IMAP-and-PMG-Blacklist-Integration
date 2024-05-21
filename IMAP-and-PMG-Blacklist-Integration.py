@@ -1,4 +1,3 @@
-
 import imaplib
 import email
 import re
@@ -14,15 +13,15 @@ warnings.filterwarnings("ignore", category=urllib3.exceptions.InsecureRequestWar
 GREEN = '\033[92m'
 RESET = '\033[0m'
 
-# Function to extract IP address from Received header
-def extract_ip(received_header):
-    # Regular expression to match IP address
+# Function to extract IP address from headers
+def extract_ip(headers):
     ip_pattern = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
-    match = re.findall(ip_pattern, received_header)
-    if match:
-        # Return the last IP address found (oldest received IP)
-        return match[-1]
-    return None
+    ips = []
+    for header in headers:
+        match = re.findall(ip_pattern, header)
+        if match:
+            ips.extend(match)
+    return ips
 
 # Function to load whitelist IPs from file
 def load_whitelist(filename):
@@ -52,7 +51,6 @@ def fetch_source_ips_from_email():
     if selected_folder is None:
         print("Failed to select the Junk or Spam folder.")
         exit()
-
     # Search for the 10 latest messages
     status, message_ids = imap.search(None, 'ALL')
     if status != 'OK':
@@ -60,7 +58,7 @@ def fetch_source_ips_from_email():
         exit()
 
     # Get the 10 latest messages
-    message_ids = message_ids[0].split()[-50:]  # Get the 50 latest message IDs
+    message_ids = message_ids[0].split()[-10:]  # Get the 10 latest message IDs
 
     # Load whitelist IPs
     whitelist_ips = set(load_whitelist('whitelist_ips.txt'))  # Convert to set for faster lookup
@@ -76,14 +74,19 @@ def fetch_source_ips_from_email():
         raw_email = message_data[0][1]
         msg = email.message_from_bytes(raw_email)
 
-        # Get source IP from headers
+        # Get source IPs from headers
+        headers_to_check = []
+        received_spf_header = msg.get('Received-SPF')
+        if received_spf_header:
+            headers_to_check.append(received_spf_header)
         received_headers = msg.get_all('Received')
         if received_headers:
-            for received_header in received_headers[::-1]:
-                source_ip = extract_ip(received_header)
-                if source_ip and source_ip not in whitelist_ips:
-                    source_ips.add(source_ip)
-                    break  # Stop processing received headers after finding the oldest IP
+            headers_to_check.extend(received_headers[::-1])
+
+        ips = extract_ip(headers_to_check)
+        for ip in ips:
+            if ip and ip not in whitelist_ips:
+                source_ips.add(ip)
 
     # Close the connection
     imap.close()
